@@ -1,44 +1,60 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, RequestOptions } from "@angular/http";
 import { map, catchError } from "rxjs/operators";
 import { throwError } from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { AuthUser } from "../../_models/authUser";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   baseUrl = "http://localhost:5000/api/auth/";
-  userTokoen: string;
+  userToken: string;
+  decodedToken: any;
 
-  constructor(private http: Http) {}
+  constructor(
+    private http: HttpClient,
+    private jwtHelperService: JwtHelperService
+  ) {}
 
   login(user: any) {
     return this.http
-      .post(this.baseUrl + "login", user, this.setResuestOptions())
+      .post<AuthUser>(this.baseUrl + "login", user, this.setRequestOptions())
       .pipe(
         map(u => {
-          const userResponse = u.json();
-          if (userResponse) {
-            localStorage.setItem("token", userResponse.tokenString);
-            this.userTokoen = userResponse.tokenString;
+          const userR = u;
+          if (userR && userR.tokenString) {
+            localStorage.setItem("token", userR.tokenString);
+            this.userToken = userR.tokenString;
+            this.decodedToken = this.jwtHelperService.decodeToken(
+              this.userToken
+            );
+            console.log(this.decodedToken);
           }
         }),
         catchError(this.handleError)
       );
   }
 
-  register(user: any) {
-    return this.http.post(
-      this.baseUrl + "register",
-      user,
-      this.setResuestOptions()
-    ).pipe(
-      catchError(this.handleError));
+  isLoggedIn() {
+    const token = this.jwtHelperService.tokenGetter();
+    if (!token) {
+      return false;
+    }
+    return !this.jwtHelperService.isTokenExpired(token);
   }
 
-  private setResuestOptions() {
-    const headers = new Headers({ "Content-type": "application/json" });
-    return new RequestOptions({ headers: headers });
+  register(user: any) {
+    return this.http
+      .post(this.baseUrl + "register", user, this.setRequestOptions())
+      .pipe(catchError(this.handleError));
+  }
+
+  private setRequestOptions() {
+    return {
+      headers: new HttpHeaders().set("Content-Type", "application/json")
+    };
   }
 
   private handleError(error: any) {

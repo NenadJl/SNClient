@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../_services/authorization/auth.service";
+import { AlertifyService } from "../_services/alertify/alertify.service";
+import { Router } from "../../../node_modules/@angular/router";
 
 @Component({
   selector: "app-navbar",
@@ -8,8 +10,13 @@ import { AuthService } from "../_services/authorization/auth.service";
 })
 export class NavbarComponent implements OnInit {
   model: any = {};
+  helloUsername: string;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private alertyfyService: AlertifyService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
@@ -17,17 +24,24 @@ export class NavbarComponent implements OnInit {
     this.authService
       .login(this.model)
       .subscribe(
-        data => console.log("Success"),
-        error => console.log(error)
+        () => {
+          this.alertyfyService.success("NENENNENENENENENNE");
+          this.helloUsername = this.authService.decodedToken.unique_name;
+        },
+        error => this.alertyfyService.error(error),
+        () => this.router.navigate(["/members"])
       );
+
   }
 
   logOut() {
-    this.authService.userTokoen = null;
+    this.authService.userToken = null;
     localStorage.removeItem("token");
+    this.alertyfyService.success("Sucess loged out");
+    this.router.navigate(["/home"]);
   }
 
   loggedIn() {
-    return !!localStorage.getItem("token");
+    return this.authService.isLoggedIn();
   }
 }
