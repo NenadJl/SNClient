@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { User } from "./User";
 
 export interface AuthUser {
     tokenString: string;

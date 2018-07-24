@@ -4,12 +4,13 @@ import { throwError } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { AuthUser } from "../../_models/authUser";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
-  baseUrl = "http://localhost:5000/api/auth/";
+  baseUrl = environment.apiUrl + "auth/";
   userToken: string;
   decodedToken: any;
 
@@ -20,16 +21,14 @@ export class AuthService {
 
   login(user: any) {
     return this.http
-      .post<AuthUser>(this.baseUrl + "login", user, this.setRequestOptions())
+      .post<AuthUser>(this.baseUrl + "login", user, this.setRequestOptionsHeaders())
       .pipe(
         map(u => {
           const userR = u;
           if (userR && userR.tokenString) {
             localStorage.setItem("token", userR.tokenString);
             this.userToken = userR.tokenString;
-            this.decodedToken = this.jwtHelperService.decodeToken(
-              this.userToken
-            );
+            this.decodedToken = this.jwtHelperService.decodeToken(this.userToken);
             console.log(this.decodedToken);
           }
         }),
@@ -47,11 +46,11 @@ export class AuthService {
 
   register(user: any) {
     return this.http
-      .post(this.baseUrl + "register", user, this.setRequestOptions())
+      .post(this.baseUrl + "register", user, this.setRequestOptionsHeaders())
       .pipe(catchError(this.handleError));
   }
 
-  private setRequestOptions() {
+  private setRequestOptionsHeaders() {
     return {
       headers: new HttpHeaders().set("Content-Type", "application/json")
     };
