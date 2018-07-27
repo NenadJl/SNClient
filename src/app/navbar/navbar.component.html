@@ -27,7 +27,7 @@
         <div ngbDropdown class="d-inline-block">
           <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Hello {{authService.decodedToken.unique_name}}</button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <a class="dropdown-item">Edit Profile</a>
+            <a class="dropdown-item" [routerLink]="['/member/edit']" routerLinkActive="router-link-active" >Edit Profile</a>
             <a class="dropdown-item" (click)="logOut()">Logout</a>
           </div>
         </div>

@@ -7,7 +7,7 @@ import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 @Injectable()
-export class MembersDetailResolver implements Resolve<User> {
+export class MembersListResolver implements Resolve<User[]> {
 
     constructor (
         private userService: UserService,
@@ -15,8 +15,8 @@ export class MembersDetailResolver implements Resolve<User> {
         private alertify: AlertifyService
     ) {}
 
-    resolve (route: ActivatedRouteSnapshot): Observable<User> {
-        return this.userService.getUser(route.params["id"]).pipe(
+    resolve (route: ActivatedRouteSnapshot): Observable<User[]> {
+        return this.userService.getUsers().pipe(
             catchError(err => {
                 this.alertify.error("YOU HAVE AN ERROR");
                 this.router.navigate(["/members"]);

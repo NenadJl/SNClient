@@ -16,13 +16,16 @@ import { ListsComponent } from "./lists/lists.component";
 import { MessagesComponent } from "./messages/messages.component";
 import { MemberCardComponent } from "./members/member-card/member-card.component";
 import { MemberDetailComponent } from "./members/member-detail/member-detail.component";
+import { MemberEditComponent } from "./members/member-edit/member-edit.component";
 
-import { appRoutes } from "./routes";
-import { AuthGuard } from "./_guards/auth.guard";
 import { UserService } from "./_services/users/user.service";
 import { AuthService } from "./_services/authorization/auth.service";
 import { AlertifyService } from "./_services/alertify/alertify.service";
+
+import { appRoutes } from "./routes";
+import { AuthGuard } from "./_guards/auth.guard";
 import { MembersDetailResolver } from "./_resolvers/members-detail.resolver";
+import { MembersListResolver } from "./_resolvers/members-list.resolver";
 
 const jwtConfigObj = {
   config: {
@@ -41,7 +44,8 @@ const jwtConfigObj = {
     ListsComponent,
     MessagesComponent,
     MemberCardComponent,
-    MemberDetailComponent
+    MemberDetailComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +61,8 @@ const jwtConfigObj = {
     AlertifyService,
     AuthGuard,
     UserService,
-    MembersDetailResolver
+    MembersDetailResolver,
+    MembersListResolver
   ],
   bootstrap: [AppComponent]
 })

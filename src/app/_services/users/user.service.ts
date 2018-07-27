@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { User } from "../../_models/User";
-import { Observable, throwError } from "../../../../node_modules/rxjs";
-import { JwtHelperService } from "../../../../node_modules/@auth0/angular-jwt";
-import { catchError } from "../../../../node_modules/rxjs/operators";
+import { Observable, throwError } from "rxjs";
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { catchError } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
