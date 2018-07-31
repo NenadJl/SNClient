@@ -8,6 +8,8 @@ import { MemberDetailComponent } from "./members/member-detail/member-detail.com
 import { MembersDetailResolver } from "./_resolvers/members-detail.resolver";
 import { MemberEditComponent } from "./members/member-edit/member-edit.component";
 import { MembersListResolver } from "./_resolvers/members-list.resolver";
+import { MembersEditResolver } from "./_resolvers/members-edit.resolver";
+import { PreventUnsavedChangesGuard } from "./_guards/prevent-unsaved-changes.guard";
 
 export const appRoutes: Routes = [
   { path: "home", component: HomeComponent },
@@ -18,9 +20,11 @@ export const appRoutes: Routes = [
     children: [
       { path: "members", component: MemberListComponent , resolve: {users: MembersListResolver}},
       { path: "members/:id", component: MemberDetailComponent, resolve: {neno: MembersDetailResolver}},
+      { path: "member/edit", component: MemberEditComponent,
+        resolve: {user: MembersEditResolver},
+        canDeactivate: [PreventUnsavedChangesGuard]},
       { path: "messages", component: MessagesComponent },
-      { path: "lists", component: ListsComponent },
-      { path: "member/edit", component: MemberEditComponent}
+      { path: "lists", component: ListsComponent }
     ]
   },
   { path: "**", redirectTo: "home", pathMatch: "full" }

@@ -26,6 +26,8 @@ import { appRoutes } from "./routes";
 import { AuthGuard } from "./_guards/auth.guard";
 import { MembersDetailResolver } from "./_resolvers/members-detail.resolver";
 import { MembersListResolver } from "./_resolvers/members-list.resolver";
+import { MembersEditResolver } from "./_resolvers/members-edit.resolver";
+import { PreventUnsavedChangesGuard } from "./_guards/prevent-unsaved-changes.guard";
 
 const jwtConfigObj = {
   config: {
@@ -62,7 +64,9 @@ const jwtConfigObj = {
     AuthGuard,
     UserService,
     MembersDetailResolver,
-    MembersListResolver
+    MembersListResolver,
+    MembersEditResolver,
+    PreventUnsavedChangesGuard
   ],
   bootstrap: [AppComponent]
 })

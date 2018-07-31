@@ -31,6 +31,13 @@ export class UserService {
       );
   }
 
+  updateUser(id: number, user: User) {
+    return this.http.put(this.baseUrl + id, user, this.setRequestOptionsHeaders())
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   private setRequestOptionsHeaders() {
     const token = this.jwtHelperService.tokenGetter();
     if (token) {
