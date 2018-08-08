@@ -1,7 +1,13 @@
-a.dropdown-item,  {
-    cursor: pointer;
+a.dropdown-item {
+  cursor: pointer;
 }
 
 .topnav-right {
-    float: right;
-  }
+  float: right;
+}
+
+img {
+  max-height: 35px;
+  border: 2px solid red;
+  margin: 5px;
+}

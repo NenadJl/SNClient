@@ -6,6 +6,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { RouterModule } from "@angular/router";
 import { NgxGalleryModule } from "ngx-gallery";
+import { FileUploadModule } from "ng2-file-upload";
 
 import { AppComponent } from "./app.component";
 import { NavbarComponent } from "./navbar/navbar.component";
@@ -17,6 +18,7 @@ import { MessagesComponent } from "./messages/messages.component";
 import { MemberCardComponent } from "./members/member-card/member-card.component";
 import { MemberDetailComponent } from "./members/member-detail/member-detail.component";
 import { MemberEditComponent } from "./members/member-edit/member-edit.component";
+import { PhotoEditorComponent } from "./members/photo-editor/photo-editor.component";
 
 import { UserService } from "./_services/users/user.service";
 import { AuthService } from "./_services/authorization/auth.service";
@@ -47,13 +49,15 @@ const jwtConfigObj = {
     MessagesComponent,
     MemberCardComponent,
     MemberDetailComponent,
-    MemberEditComponent
+    MemberEditComponent,
+    PhotoEditorComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     NgxGalleryModule,
+    FileUploadModule,
     JwtModule.forRoot(jwtConfigObj),
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes)

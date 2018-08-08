@@ -38,6 +38,17 @@ export class UserService {
       );
   }
 
+  setMainPhoto(userId: number, id: number) {
+    return this.http.post(this.baseUrl + userId + "/photos/" + id + "/setMain", {});
+  }
+
+  deletePhoto(userId: number, id: number) {
+    return this.http.delete(this.baseUrl  + userId + "/photos/" + id)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
   private setRequestOptionsHeaders() {
     const token = this.jwtHelperService.tokenGetter();
     if (token) {
@@ -52,14 +63,18 @@ export class UserService {
 
   private handleError(error: any) {
     const applicationError = error.headers.get("Application-Error");
+    console.log(applicationError);
     if (applicationError) {
       return throwError(applicationError);
     }
-    const serverError = error.json();
+    const serverError = error;
+    console.log(serverError);
     let modelStateErrors = "";
     if (serverError) {
       for (const key in serverError) {
         if (serverError[key]) {
+          console.log(key);
+          console.log(serverError[key]);
           modelStateErrors += serverError[key] + "\n";
         }
       }

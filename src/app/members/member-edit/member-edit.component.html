@@ -14,7 +14,7 @@
     <div class="col-sm-4">
       <div class="card">
         <div class="panel-image">
-          <img class="card-img-top" src="{{user.photoUrl}}" alt="{{user.knownAs}}">
+          <img class="card-img-top" src="{{photoUrl}}" alt="{{user.knownAs}}">
         </div>
         <div class="card-body">
           <div>
@@ -67,7 +67,9 @@
           </ngb-tab>
           <ngb-tab title="Edit Photos">
             <ng-template ngbTabContent>
-              <p>PHOTO EDIT WILL GO HERE</p>
+              <app-photo-editor 
+                [photos]="user.photos"
+                ></app-photo-editor>
             </ng-template>
           </ngb-tab>
         </ngb-tabset>

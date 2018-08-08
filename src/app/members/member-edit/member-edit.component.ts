@@ -5,6 +5,7 @@ import { NgForm } from "@angular/forms";
 import { UserService } from "../../_services/users/user.service";
 import { AuthService } from "../../_services/authorization/auth.service";
 import { AlertifyService } from "../../_services/alertify/alertify.service";
+import { Photo } from "../../_models/Photo";
 
 @Component({
   selector: "app-member-edit",
@@ -14,6 +15,7 @@ import { AlertifyService } from "../../_services/alertify/alertify.service";
 export class MemberEditComponent implements OnInit {
 
   user: User;
+  photoUrl: string;
 
   @ViewChild("editForm") editForm: NgForm;
 
@@ -33,6 +35,7 @@ export class MemberEditComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.data.subscribe(data => (this.user = data["user"]));
+    this.authService.currentPhotoUrl.subscribe(url => this.photoUrl = url);
   }
 
   updateUser() {
