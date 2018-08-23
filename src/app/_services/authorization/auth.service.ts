@@ -59,7 +59,7 @@ export class AuthService {
     return !this.jwtHelperService.isTokenExpired(token);
   }
 
-  register(user: any) {
+  register(user: User) {
     return this.http
       .post(this.baseUrl + "register", user, this.setRequestOptionsHeaders())
       .pipe(catchError(this.handleError));

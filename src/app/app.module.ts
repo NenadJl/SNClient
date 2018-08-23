@@ -1,4 +1,4 @@
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { JwtModule } from "@auth0/angular-jwt";
@@ -55,6 +55,7 @@ const jwtConfigObj = {
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     NgxGalleryModule,
     FileUploadModule,

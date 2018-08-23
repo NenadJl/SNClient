@@ -12,7 +12,8 @@ import { AlertifyService } from "../../_services/alertify/alertify.service";
   styleUrls: ["./photo-editor.component.css"]
 })
 export class PhotoEditorComponent implements OnInit {
-  @Input() photos: Photo[];
+  @Input()
+  photos: Photo[];
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
@@ -60,6 +61,14 @@ export class PhotoEditorComponent implements OnInit {
           isMain: res.isMain
         };
         this.photos.push(photo);
+        if (photo.isMain) {
+          this.authService.changeMemberPhoto(photo.url);
+          this.authService.currentUser.photoUrl = photo.url;
+          localStorage.setItem(
+            "user",
+            JSON.stringify(this.authService.currentUser)
+          );
+        }
       }
     };
   }
