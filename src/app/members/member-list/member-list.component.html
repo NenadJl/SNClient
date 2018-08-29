@@ -26,20 +26,15 @@
 
       <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
       <button type="button" class="btn btn-info" (click)="resetFilters()" style="margin-left:10px">Reset Filter</button>
-    </form>
-    <div class="col">
-      <div class="btn-group float-right">
-        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="userParams.orderBy">
-          <label ngbButtonLabel class="btn-primary">
-            <input (click)="loadUsers()" ngbButton type="radio" value="lastActive"> Last Active
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input (click)="loadUsers()" ngbButton type="radio" value="created"> Created
-          </label>
-          <p>{{userParams.orderBy}}</p>
-        </div>
+      <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="userParams.orderBy">
+        <label ngbButtonLabel class="btn-primary">
+          <input (click)="loadUsers()" ngbButton type="radio" value="lastActive"> Last Active
+        </label>
+        <label ngbButtonLabel class="btn-primary">
+          <input (click)="loadUsers()" ngbButton type="radio" value="created"> Created
+        </label>
       </div>
-    </div>
+    </form>
     <br>
     <div class="row card-group">
       <div class="col-2" *ngFor="let user of users" style="margin: 5px">
