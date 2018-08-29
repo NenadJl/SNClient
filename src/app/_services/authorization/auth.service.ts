@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { AuthUser } from "../../_models/authUser";
 import { environment } from "../../../environments/environment";
-import { User } from "../../_models/User";
+import { User } from "../../_models/user";
 
 @Injectable({
   providedIn: "root"

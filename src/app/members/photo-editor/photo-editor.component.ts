@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { Photo } from "../../_models/Photo";
+import { Photo } from "../../_models/photo";
 import { FileUploader } from "ng2-file-upload";
 import { environment } from "../../../environments/environment";
 import { AuthService } from "../../_services/authorization/auth.service";
@@ -40,7 +40,7 @@ export class PhotoEditorComponent implements OnInit {
         "users/" +
         this.authService.decodedToken.nameid +
         "/photos",
-      authToken: "Bearer " + localStorage.getItem("token"),
+      authToken: "Bearer11 " + localStorage.getItem("token"),
       isHTML5: true,
       allowedFileType: ["image"],
       removeAfterUpload: true,

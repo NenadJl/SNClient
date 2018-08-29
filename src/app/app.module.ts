@@ -13,7 +13,6 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { HomeComponent } from "./home/home.component";
 import { RegisterComponent } from "./register/register.component";
 import { MemberListComponent } from "./members/member-list/member-list.component";
-import { ListsComponent } from "./lists/lists.component";
 import { MessagesComponent } from "./messages/messages.component";
 import { MemberCardComponent } from "./members/member-card/member-card.component";
 import { MemberDetailComponent } from "./members/member-detail/member-detail.component";
@@ -31,10 +30,13 @@ import { MembersListResolver } from "./_resolvers/members-list.resolver";
 import { MembersEditResolver } from "./_resolvers/members-edit.resolver";
 import { PreventUnsavedChangesGuard } from "./_guards/prevent-unsaved-changes.guard";
 
+import { TimeAgoPipe } from "time-ago-pipe";
+
 const jwtConfigObj = {
   config: {
     tokenGetter: () => localStorage.getItem("token"),
-    whitelistedDomains: ["localhost:5000"]
+    whitelistedDomains: ["localhost:5000"],
+    blacklistedRoutes: ["localhost:5000/api/auth/"]
   }
 };
 
@@ -45,12 +47,12 @@ const jwtConfigObj = {
     HomeComponent,
     RegisterComponent,
     MemberListComponent,
-    ListsComponent,
     MessagesComponent,
     MemberCardComponent,
     MemberDetailComponent,
     MemberEditComponent,
-    PhotoEditorComponent
+    PhotoEditorComponent,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,

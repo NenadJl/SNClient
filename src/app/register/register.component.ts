@@ -3,11 +3,10 @@ import { AuthService } from "../_services/authorization/auth.service";
 import { AlertifyService } from "../_services/alertify/alertify.service";
 import {
   FormGroup,
-  FormControl,
   FormBuilder,
   Validators
 } from "@angular/forms";
-import { User } from "../_models/User";
+import { User } from "../_models/user";
 import { Router } from "@angular/router";
 
 @Component({
@@ -72,7 +71,7 @@ export class RegisterComponent implements OnInit {
         () => this.alertifyService.success("Success"),
         error => this.alertifyService.error(error),
         () => {
-          this.authService.login(this.user).subscribe(()=> {
+          this.authService.login(this.user).subscribe(() => {
             this.router.navigate(["/members"]);
           });
         }

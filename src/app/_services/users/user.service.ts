@@ -1,64 +1,79 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { User } from "../../_models/User";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { User } from "../../_models/user";
 import { Observable, throwError } from "rxjs";
-import { JwtHelperService } from "@auth0/angular-jwt";
-import { catchError } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
+import { PaginatedResult } from "../../_models/pagination";
+import { UserParams } from "../../_models/userParams";
 
 @Injectable({
   providedIn: "root"
 })
 export class UserService {
-  baseUrl = environment.apiUrl + "users/";
+  baseUsersUrl = environment.apiUrl + "users/";
 
   constructor(
     private http: HttpClient,
-    private jwtHelperService: JwtHelperService
   ) {}
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl, this.setRequestOptionsHeaders())
+  getUsers(page?: number, itemsPerPage?: number, userParams?: UserParams): Observable<PaginatedResult<User[]>> {
+
+    const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
+
+    let params = new HttpParams();
+
+    if (page != null && itemsPerPage != null) {
+      params = params.append("pageNumber", page.toString());
+      params = params.append("pageSize", itemsPerPage.toString());
+    }
+
+    if (userParams) {
+      params = params.append("minAge", userParams.minAge.toString());
+      params = params.append("maxAge", userParams.maxAge.toString());
+      params = params.append("gender", userParams.gender);
+      params = params.append("orderBy", userParams.orderBy);
+    }
+
+    return this.http.get<User[]>(this.baseUsersUrl, { observe: "response", params: params })
       .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          const pagination = response.headers.get("Pagination");
+          console.log("NENO TUKA: " + response.headers.get("Pagination"));
+          if (pagination) {
+            paginatedResult.pagination = JSON.parse(pagination);
+          }
+          console.log(response);
+          return paginatedResult;
+        }),
         catchError(this.handleError)
       );
   }
 
   getUser(id: number): Observable<User> {
-    return this.http.get<User>(this.baseUrl + id, this.setRequestOptionsHeaders())
+    return this.http.get<User>(this.baseUsersUrl + id)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   updateUser(id: number, user: User) {
-    return this.http.put(this.baseUrl + id, user, this.setRequestOptionsHeaders())
+    return this.http.put(this.baseUsersUrl + id, user)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   setMainPhoto(userId: number, id: number) {
-    return this.http.post(this.baseUrl + userId + "/photos/" + id + "/setMain", {});
+    return this.http.post(this.baseUsersUrl + userId + "/photos/" + id + "/setMain", {});
   }
 
   deletePhoto(userId: number, id: number) {
-    return this.http.delete(this.baseUrl  + userId + "/photos/" + id)
+    return this.http.delete(this.baseUsersUrl  + userId + "/photos/" + id)
     .pipe(
       catchError(this.handleError)
     );
-  }
-
-  private setRequestOptionsHeaders() {
-    const token = this.jwtHelperService.tokenGetter();
-    if (token) {
-      const headersOptions = new HttpHeaders()
-        .set("Content-Type", "application/json")
-        .set("Authorization", "Bearer" + " " + token);
-      return {
-        headers: headersOptions
-      };
-    }
   }
 
   private handleError(error: any) {
